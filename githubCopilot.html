@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>Document</title>
+    <script>
+        var x = 100;
+        var y = 100;
+    $(document).ready(function(){
+        loadImages();
+        mexicoStates();
+        drawCircle(x, y, 5  , "red");
+        // add event listener to button
+        $("#btn").click(function(){
+            // get the value of the input field
+            var n = document.getElementById('fibonacciInput').value;
+            // call the function
+            console.log(n);
+            var result = fibonacci(n);
+            console.log(result);
+            // display the result
+            document.getElementById('fibonacciResult').value = result;
+        });
+
+    });
+
+    // load images from api
+    function loadImages() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var response = JSON.parse(this.responseText);
+                console.log(response);
+                var images = response;
+                var html = '';
+                for (var i = 0; i < images.length; i++) {
+                    html += '<div class="col-md-4">';
+                    html += '<div class="thumbnail">';
+                    html += '<a href="' + images[i] + '">';
+                    html += '<img src="' + images[i] + '">';
+                    html += '</a>';
+                    html += '<div class="caption">';
+                    html += '<p> image at index ' + i + '</p>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                }
+                document.getElementById('carousel-inner').innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "https://courses-site-data.firebaseio.com/hero-images.json", true);
+        xhttp.send();
+    }
+    document.addEventListener('keydown', captureKey);
+    // fucntion that capture every key on the keyboard
+    function captureKey(e) {
+        var key = e.keyCode;
+        console.log(key);
+        if (key == 37) {
+            x =x -10;
+        } else if (key == 39) {
+            x =x +10;
+        }
+        else if (key == 38) {
+            y =y -10;
+        } else if (key == 40) {
+            y =y +10;
+        }
+        //clearCanvas();
+        drawCircle(x, y, 5  , "red");
+    }
+
+    // clear canvas content
+    function clearCanvas() {
+        var canvas = document.getElementById('myCanvas');
+        var ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    // draw circle on canvas
+    function drawCircle(x, y, r, color) {
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, 2 * Math.PI);
+        ctx.fillStyle = color;
+        ctx.fill();
+    }
+
+
+    // fibonacci code
+    function fibonacci(n) {
+        if (n <= 1) {
+            return n;
+        } else {
+            return fibonacci(n - 1) + fibonacci(n - 2);
+        }
+    }
+
+    // mexico states code
+    function mexicoStates(n) {
+        var states = ["Aguascalientes", "Baja California", "Baja California Sur", "Campeche", "Chiapas", "Chihuahua", "Coahuila", "Colima", "Distrito Federal", "Durango", "Estado de México", "Guanajuato", "Guerrero", "Hidalgo", "Jalisco", "Michoacán", "Morelos", "Nayarit", "Nuevo León", "Oaxaca", "Puebla", "Querétaro", "Quintana Roo", "San Luis Potosí", "Sinaloa", "Sonora", "Tabasco", "Tamaulipas", "Tlaxcala", "Veracruz", "Yucatán", "Zacatecas"];
+        var html = '';
+        for (var i = 0; i < states.length; i++) {
+            html += '<div class="col-md-4">';
+            html += '<div class="thumbnail">';
+            html +=  states[i] ;
+            html += '</div>';
+            html += '</div>';
+        }
+        document.getElementById('states').innerHTML = html;
+    }
+
+
+
+    </script>
+    
+
+
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">GitHub Copilot</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">Page 1</a></li>
+                <li><a href="#">Page 2</a></li>
+            </ul>
+        </div>
+
+<div id="states">Here is </div>
+
+        <input type="text" id="fibonacciInput">
+        <button id="btn" >Fibonacci</button>
+        <input type="text" id="fibonacciResult">
+
+        <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="carousel-inner"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <canvas id="myCanvas" width="800" height="600" style="border:1px solid #d3d3d3;">
+
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="footer">
+                <p>&copy; 2017 GitHub Copilot</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
